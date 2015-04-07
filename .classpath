@@ -12,5 +12,14 @@
 	<classpathentry kind="lib" path="F:/dev/android studio/android materials/httpcomponents-client-4.4.1-bin/httpcomponents-client-4.4.1/lib/httpmime-4.4.1.jar"/>
 	<classpathentry kind="lib" path="F:/dev/android studio/android materials/httpcomponents-client-4.4.1-bin/httpcomponents-client-4.4.1/lib/jna-4.1.0.jar"/>
 	<classpathentry kind="lib" path="F:/dev/android studio/android materials/httpcomponents-client-4.4.1-bin/httpcomponents-client-4.4.1/lib/jna-platform-4.1.0.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/ezmorph-1.0.4.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/jdom.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/json-lib-2.2.2-jdk15.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json包集合/json-lib-2.2.3-jdk13.jar"/>
+	<classpathentry kind="lib" path="F:/dev/android studio/android materials/json-simple.jar/json-simple.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
