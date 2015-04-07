@@ -32,7 +32,7 @@ public class GetMethod {
 		String ret = null;
 		try {
 			response = httpClient.execute(httpGet);
-			System.out.println("Status Code:"+ response.getStatusLine());
+//			System.out.println("Status Code:"+ response.getStatusLine());
 			HttpEntity entity = response.getEntity();
 			if(entity != null){
 				byte[] bytes = EntityUtils.toByteArray(entity);
