@@ -34,7 +34,7 @@ public class MainTest {
 		final int SEARCH_PAGE_NUMBER = 10;
 		final int[] GROUP_INDEX = new int[]{1,2};
 		final double FALSE_POSITIVE_PROBABILITY = 0.1;
-		final int EXPECTED_NUMBER_OF_ELEMENTS = 1000;
+		final int EXPECTED_NUMBER_OF_ELEMENTS = 150;
 		int itemNumber = 1;
 		List<TargetUrl> list = JsonUtil.parseJsonConfig();
 		BloomFilter<String> bloomFilter = new BloomFilter<String>(FALSE_POSITIVE_PROBABILITY, EXPECTED_NUMBER_OF_ELEMENTS);
@@ -49,7 +49,9 @@ public class MainTest {
 				List<String> titles = retList.get(1);
 				for(int titleIndex = 0; titleIndex < titles.size(); titleIndex++ ){
 					//filter with some key words
-					if(RegexTool.canMatch(DESIRED_KEYS_PATTERN, titles.get(titleIndex)) && !bloomFilter.contains(titles.get(titleIndex))){
+					String title = titles.get(titleIndex);
+					if(RegexTool.canMatch(DESIRED_KEYS_PATTERN, title) && !bloomFilter.contains(title)){
+						bloomFilter.add(title);
 						System.out.println(itemNumber++ + ". "+titles.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex));
 					}
 					
