@@ -14,6 +14,7 @@ import javax.sound.midi.MidiDevice.Info;
 
 
 
+
 import org.apache.http.client.methods.Configurable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,6 +23,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 
 import cn.edu.bupt.entity.TargetUrl;
 import cn.edu.bupt.http.GetMethod;
+import cn.edu.bupt.util.BloomFilter;
 import cn.edu.bupt.util.JsonUtil;
 import cn.edu.bupt.util.RegexTool;
 
@@ -31,9 +33,11 @@ public class MainTest {
 		final String DESIRED_KEYS_PATTERN = "android|安卓|java|百度|腾讯|阿里|360|小米|微软|新浪|网易|有道|搜狐|搜狗";
 		final int SEARCH_PAGE_NUMBER = 10;
 		final int[] GROUP_INDEX = new int[]{1,2};
+		final double FALSE_POSITIVE_PROBABILITY = 0.1;
+		final int EXPECTED_NUMBER_OF_ELEMENTS = 1000;
 		int itemNumber = 1;
 		List<TargetUrl> list = JsonUtil.parseJsonConfig();
-		
+		BloomFilter<String> bloomFilter = new BloomFilter<String>(FALSE_POSITIVE_PROBABILITY, EXPECTED_NUMBER_OF_ELEMENTS);
 		for(int targetIndex = 0; targetIndex < list.size(); targetIndex++){
 			TargetUrl candidate = list.get(0);
 			for(int pageIndex = 1; pageIndex <= SEARCH_PAGE_NUMBER; pageIndex++){
@@ -45,7 +49,7 @@ public class MainTest {
 				List<String> titles = retList.get(1);
 				for(int titleIndex = 0; titleIndex < titles.size(); titleIndex++ ){
 					//filter with some key words
-					if(RegexTool.canMatch(DESIRED_KEYS_PATTERN, titles.get(titleIndex))){
+					if(RegexTool.canMatch(DESIRED_KEYS_PATTERN, titles.get(titleIndex)) && !bloomFilter.contains(titles.get(titleIndex))){
 						System.out.println(itemNumber++ + ". "+titles.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex));
 					}
 					
