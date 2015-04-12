@@ -32,7 +32,7 @@ public class MainTest {
 	public static void main(String[] args) throws IOException {
 		final String DESIRED_KEYS_PATTERN = "android|安卓|java|百度|腾讯|阿里|360|小米|微软|新浪|网易|有道|搜狐|搜狗";
 		final int SEARCH_PAGE_NUMBER = 10;
-		final int[] GROUP_INDEX = new int[]{1,2};
+		final int[] GROUP_INDEX = new int[]{1,2,3,4};
 		final double FALSE_POSITIVE_PROBABILITY = 0.1;
 		final int EXPECTED_NUMBER_OF_ELEMENTS = 150;
 		int itemNumber = 1;
@@ -47,12 +47,14 @@ public class MainTest {
 				List<List<String>> retList = RegexTool.getRegex(candidate.getPattern(), htmlString , GROUP_INDEX);
 				List<String> sub_url = retList.get(0);
 				List<String> titles = retList.get(1);
+				List<String> post_time = retList.get(2);
+				List<String> author = retList.get(3);
 				for(int titleIndex = 0; titleIndex < titles.size(); titleIndex++ ){
 					//filter with some key words
 					String title = titles.get(titleIndex);
 					if(RegexTool.canMatch(DESIRED_KEYS_PATTERN, title) && !bloomFilter.contains(title)){
 						bloomFilter.add(title);
-						System.out.println(itemNumber++ + ". "+titles.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex));
+						System.out.println(itemNumber++ + ". "+titles.get(titleIndex)+", post time:"+post_time.get(titleIndex)+", author:"+author.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex));
 					}
 					
 				}
