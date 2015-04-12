@@ -8,7 +8,5 @@ TO DO
 
 2.email or other ways to inform
 
-3.add detail infomation such as author info , post date and time to target content
-
-4.make the pattern for desired content configurable , probably by editing files.
+3.make the pattern for desired content configurable , probably by editing files.
 

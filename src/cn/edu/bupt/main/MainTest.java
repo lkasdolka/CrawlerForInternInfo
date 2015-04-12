@@ -15,6 +15,8 @@ import javax.sound.midi.MidiDevice.Info;
 
 
 
+
+
 import org.apache.http.client.methods.Configurable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -24,7 +26,9 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 import cn.edu.bupt.entity.TargetUrl;
 import cn.edu.bupt.http.GetMethod;
 import cn.edu.bupt.util.BloomFilter;
+import cn.edu.bupt.util.DateUtil;
 import cn.edu.bupt.util.JsonUtil;
+import cn.edu.bupt.util.MailUtil;
 import cn.edu.bupt.util.RegexTool;
 
 
@@ -33,9 +37,17 @@ public class MainTest {
 		final String DESIRED_KEYS_PATTERN = "android|安卓|java|百度|腾讯|阿里|360|小米|微软|新浪|网易|有道|搜狐|搜狗";
 		final int SEARCH_PAGE_NUMBER = 10;
 		final int[] GROUP_INDEX = new int[]{1,2,3,4};
-		final double FALSE_POSITIVE_PROBABILITY = 0.1;
 		final int EXPECTED_NUMBER_OF_ELEMENTS = 150;
+		final double FALSE_POSITIVE_PROBABILITY = 0.1;
+		
+		final String from = "liukeang@163.com";
+		final String sendTo = "459127552@qq.com";
+		StringBuilder theme = new StringBuilder();
+		StringBuilder emailContent = new StringBuilder();
+		String emailTitle = theme.append(DateUtil.getDate()+ "的招聘信息").toString();
 		int itemNumber = 1;
+		
+		
 		List<TargetUrl> list = JsonUtil.parseJsonConfig();
 		BloomFilter<String> bloomFilter = new BloomFilter<String>(FALSE_POSITIVE_PROBABILITY, EXPECTED_NUMBER_OF_ELEMENTS);
 		for(int targetIndex = 0; targetIndex < list.size(); targetIndex++){
@@ -54,12 +66,17 @@ public class MainTest {
 					String title = titles.get(titleIndex);
 					if(RegexTool.canMatch(DESIRED_KEYS_PATTERN, title) && !bloomFilter.contains(title)){
 						bloomFilter.add(title);
-						System.out.println(itemNumber++ + ". "+titles.get(titleIndex)+", post time:"+post_time.get(titleIndex)+", author:"+author.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex));
+						String postTime = post_time.get(titleIndex).replaceAll("&emsp;", "");
+						System.out.println(itemNumber + ". "+titles.get(titleIndex)+", post time:"+postTime+", author:"+author.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex));
+						emailContent.append(itemNumber + ". "+titles.get(titleIndex)+", post time:"+postTime+", author:"+author.get(titleIndex)+", http://"+ candidate.getHost()+sub_url.get(titleIndex)+"\n");
+						itemNumber++;
 					}
 					
 				}
 			}
 		}
+		
+		MailUtil.sendEmail(sendTo, from, emailTitle, emailContent.toString());
 		
 		
 //		for(int pageIndex = 1; pageIndex <= SEARCH_PAGE_NUMBER; pageIndex++){
